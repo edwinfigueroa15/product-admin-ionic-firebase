@@ -1,0 +1,7 @@
+{
+  "name": "product-admin-ionic-firebase",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
