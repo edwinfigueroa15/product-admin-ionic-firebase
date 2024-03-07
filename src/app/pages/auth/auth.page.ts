@@ -31,9 +31,9 @@ export class AuthPage implements OnInit {
     isLoading.present();
 
     this.firebaseService.signIn({email, password} as User).then(response => {
-      console.log(response);
+      this.utilsService.toast({ duration: 2000, message: 'Bienvenid@', color: 'success', position: 'bottom' })
     }).catch(error => {
-      console.error(error);
+      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' })
     }).finally(() => {
       isLoading.dismiss();
     })
