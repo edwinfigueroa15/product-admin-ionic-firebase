@@ -8,6 +8,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 
+// ============== FIREBASE ==================
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,6 +20,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     IonicModule.forRoot({ mode: 'md' }),
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule
   ],
   providers: [
