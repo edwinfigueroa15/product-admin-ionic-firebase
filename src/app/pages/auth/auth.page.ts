@@ -16,12 +16,33 @@ export class AuthPage implements OnInit {
   })
 
   // ========== INJECTS ==========
-  private firebaseService = inject(FirebaseService)
-  private utilsService = inject(UtilsService)
+  private firebaseService = inject(FirebaseService);
+  private utilsService = inject(UtilsService);
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  // Obteniendo la informacion del usuario de la base de datos de firebase
+  async getUserInfo(uid: string) {
+    const isLoading = await this.utilsService.loading();
+    isLoading.present();
+
+    let path = `users/${uid}`;
+
+    this.firebaseService.getDocument(path).then(response => {
+      this.utilsService.saveLocalStorage('user', response);
+      this.utilsService.routerLink('/main/home');
+      this.form.reset();
+      this.utilsService.toast({ duration: 2000, message: 'Bienvenid@', color: 'success', position: 'bottom' });
+      
+    }).catch(error => {
+      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });
+      
+    }).finally(() => {
+      isLoading.dismiss();
+    })
   }
 
   async onSubmit() {
@@ -31,9 +52,11 @@ export class AuthPage implements OnInit {
     isLoading.present();
 
     this.firebaseService.signIn({email, password} as User).then(response => {
-      this.utilsService.toast({ duration: 2000, message: 'Bienvenid@', color: 'success', position: 'bottom' })
+      this.getUserInfo(response.user.uid);
+
     }).catch(error => {
-      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' })
+      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });
+
     }).finally(() => {
       isLoading.dismiss();
     })

@@ -2,12 +2,15 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { User } from '../models/user.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { doc, getFirestore, setDoc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   private angularFireAuth = inject(AngularFireAuth);
+  private angularFirestore = inject(AngularFirestore);
 
   constructor() { }
 
@@ -28,4 +31,12 @@ export class FirebaseService {
 
   // ===== Cerrar sesión =====
 
+  // ===== Base de datos =====
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
+  }
+
+  setDocument(path: string, data: any) {
+    return setDoc(doc(getFirestore(), path), data);
+  }
 }
