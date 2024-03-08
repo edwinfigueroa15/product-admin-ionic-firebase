@@ -132,3 +132,14 @@ ion-button {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.forms-auth {
+    width: 100%;
+    max-width: none;
+}
+
+@media (min-width: 768px) {
+    .forms-auth {
+        max-width: 500px !important;
+    }
+}

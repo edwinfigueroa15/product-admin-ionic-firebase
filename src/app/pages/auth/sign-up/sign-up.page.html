@@ -1,13 +1,31 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>sign-up</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Registrarte" subtitle="A D M I N"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">sign-up</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+    <div class="d-flex-center">
+        <form [formGroup]="form" class="forms-auth ion-text-center" (ngSubmit)="onSubmit()" (keypress.enter)="onSubmit()">
+            <app-logo></app-logo>
+
+            <app-custom-input type="email" label="Correo" icon="mail-outline" [control]="form.controls.email"></app-custom-input>
+            <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+                <div *ngIf="form.controls.email.errors?.['required']">El correo es obligatorio</div>
+                <div *ngIf="form.controls.email.errors?.['email']">El correo no es valido</div>
+            </div>
+
+            <app-custom-input type="password" label="Contraseña" icon="lock-closed-outline" [control]="form.controls.password"></app-custom-input>
+            <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+                <div *ngIf="form.controls.password.errors?.['required']">La contraseña es obligatorio</div>
+            </div>
+
+            <app-custom-input type="text" label="Nombre" icon="person-outline" [control]="form.controls.name"></app-custom-input>
+            <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+                <div *ngIf="form.controls.name.errors?.['required']">La contraseña es obligatorio</div>
+                <div *ngIf="form.controls.name.errors?.['minlength']">El nombre debe ser minimo de 4 caracteres</div>
+            </div>
+
+            <ion-button type="submit" expand="block" mode="ios" class="submit ion-margin-bottom" [disabled]="form.invalid">
+                Registrarme
+                <ion-icon slot="end" name="log-in-outline"></ion-icon>
+            </ion-button>
+        </form>
+    </div>
 </ion-content>

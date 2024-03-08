@@ -2,7 +2,7 @@
 
 <ion-content class="ion-padding">
     <div class="d-flex-center">
-        <form [formGroup]="form" class="form-login ion-text-center" (ngSubmit)="onSubmit()" (keypress.enter)="onSubmit()">
+        <form [formGroup]="form" class="forms-auth ion-text-center" (ngSubmit)="onSubmit()" (keypress.enter)="onSubmit()">
             <app-logo></app-logo>
 
             <app-custom-input type="email" label="Correo" icon="mail-outline" [control]="form.controls.email"></app-custom-input>

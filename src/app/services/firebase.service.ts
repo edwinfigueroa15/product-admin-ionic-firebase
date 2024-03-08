@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  angularFireAuth = inject(AngularFireAuth);
+  private angularFireAuth = inject(AngularFireAuth);
 
   constructor() { }
 
@@ -15,4 +15,17 @@ export class FirebaseService {
   signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
   }
+
+  // ===== Registrar =====
+  signUp(user: User) {
+    return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
+  }
+
+  // ===== Actualizar usuario =====
+  updateUser(displayName: string) {
+    return updateProfile(getAuth().currentUser, { displayName });
+  }
+
+  // ===== Cerrar sesión =====
+
 }
