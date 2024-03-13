@@ -1,7 +1,6 @@
 <app-header title="Inicio" subtitle="A D M I N"></app-header>
 
 <ion-content>
-  <!-- <ion-button (click)="signOut()">Cerrar sesión</ion-button> -->
   <ion-list>
     <ion-item-sliding *ngFor="let product of products" class="product-item">
 
@@ -24,7 +23,7 @@
         <ion-item-option class="primary" (click)="addUpdateProduct(product)">
           <ion-icon class="option-btn" name="create-outline"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="danger">
+        <ion-item-option color="danger" (click)="confirmDeleteProduct(product)">
           <ion-icon class="option-btn" name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>

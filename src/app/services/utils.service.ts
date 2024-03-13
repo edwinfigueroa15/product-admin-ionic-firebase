@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
+import { AlertController, AlertOptions, LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class UtilsService {
   private loadingController = inject(LoadingController);
   private toastController = inject(ToastController);
   private modalController = inject(ModalController);
+  private alertController = inject(AlertController);
   private router = inject(Router);
 
   constructor() { }
@@ -34,6 +35,11 @@ export class UtilsService {
 
   dismissModal(data?: any) {
     return this.modalController.dismiss(data);
+  }
+
+  async presentAlert(options: AlertOptions) {
+    const alert = await this.alertController.create(options);
+    await alert.present();
   }
 
   routerLink(url: string) {

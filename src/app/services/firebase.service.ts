@@ -4,8 +4,8 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, up
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
-import { doc, getFirestore, setDoc, getDoc, addDoc, collection, collectionData, query, updateDoc } from '@angular/fire/firestore';
+import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from 'firebase/storage';
+import { doc, getFirestore, setDoc, getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -73,6 +73,10 @@ export class FirebaseService {
     return updateDoc(doc(getFirestore(), path), data);
   }
 
+  deleteDocument(path: string) {
+    return deleteDoc(doc(getFirestore(), path));
+  }
+
   async uploadImage(path: string, data_url: string) {
     return uploadString(ref(getStorage(), path), data_url, 'data_url').then(response => {
       return getDownloadURL(ref(getStorage(), path));
@@ -81,5 +85,9 @@ export class FirebaseService {
 
   async getFilePath(url: string) {
     return ref(getStorage(), url).fullPath;
+  }
+
+  async deleteFile(path: string) {
+    return deleteObject(ref(getStorage(), path));
   }
 }

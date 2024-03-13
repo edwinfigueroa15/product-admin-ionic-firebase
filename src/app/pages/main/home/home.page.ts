@@ -22,16 +22,29 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log("Entre")
     this.getProducts();
   }
 
-  // signOut() {
-  //   this.firebaseService.signOut();
-  // }
-
   getUser(): User {
     return this.utilsService.getLocalStorage('user');
+  }
+
+  async confirmDeleteProduct(product: Product) {
+    await this.utilsService.presentAlert({
+      header: 'Eliminar',
+      message: '¿Quieres eliminar este producto?',
+      buttons: [
+        {
+          text: 'Cancel',
+        }, 
+        {
+          text: 'Si, eliminar',
+          handler: () => {
+            this.deleteProduct(product);
+          }
+        }
+      ]
+    });
   }
 
   getProducts() {
@@ -45,6 +58,26 @@ export class HomePage implements OnInit {
       error: (error: any) => {
         products$.unsubscribe();
       }
+    })
+  }
+
+  async deleteProduct(product: Product) {
+    const isLoading = await this.utilsService.loading();
+    isLoading.present();
+
+    let pathImage = await this.firebaseService.getFilePath(product.image);
+    await this.firebaseService.deleteFile(pathImage);
+    
+    let path = `users/${this.getUser().uid}/products/${product.id}`;
+    this.firebaseService.deleteDocument(path).then(async response => {
+      this.utilsService.toast({ duration: 3000, message: 'Producto eliminado', color: 'success', position: 'bottom', icon:'checkmark-circle-outline' });
+
+    }).catch(error => {
+      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });
+
+    }).finally(() => {
+      this.products = this.products.filter(item => item.id != product.id);
+      isLoading.dismiss();
     })
   }
 
