@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
-import { doc, getFirestore, setDoc, getDoc, addDoc, collection } from '@angular/fire/firestore';
+import { doc, getFirestore, setDoc, getDoc, addDoc, collection, collectionData, query } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -51,6 +51,12 @@ export class FirebaseService {
   }
 
   // ===== Base de datos =====
+  getCollectionData(path: string, collectionQuery?: any) {
+    const ref = collection(getFirestore(), path);
+    return collectionData(query(ref, collectionQuery), { idField: 'id' });
+  }
+
+
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
   }
