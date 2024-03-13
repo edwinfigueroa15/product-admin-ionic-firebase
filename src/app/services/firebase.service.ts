@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
-import { doc, getFirestore, setDoc, getDoc, addDoc, collection, collectionData, query } from '@angular/fire/firestore';
+import { doc, getFirestore, setDoc, getDoc, addDoc, collection, collectionData, query, updateDoc } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -69,9 +69,17 @@ export class FirebaseService {
     return addDoc(collection(getFirestore(), path), data);
   }
 
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
+  }
+
   async uploadImage(path: string, data_url: string) {
     return uploadString(ref(getStorage(), path), data_url, 'data_url').then(response => {
       return getDownloadURL(ref(getStorage(), path));
     })
+  }
+
+  async getFilePath(url: string) {
+    return ref(getStorage(), url).fullPath;
   }
 }

@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    console.log("Entre")
     this.getProducts();
   }
 
@@ -36,24 +37,25 @@ export class HomePage implements OnInit {
   getProducts() {
     let path = `users/${this.getUser().uid}/products`;
 
-    const products$ = this.firebaseService.getCollectionData(path).subscribe({
+    let products$ = this.firebaseService.getCollectionData(path).subscribe({
       next: (response: Product[]) => {
         this.products = response;
-      },
-      error: (error: any) => {
         products$.unsubscribe();
       },
-      complete: () => {
+      error: (error: any) => {
         products$.unsubscribe();
       }
     })
   }
 
-  addUpdateProduct() {
-    this.utilsService.presentModal({
+  async addUpdateProduct(product?: Product) {
+    const responseModal = await this.utilsService.presentModal({
       component: AddUpdateProductComponent,
+      componentProps: { product },
       cssClass: 'add-update-modal'
     })
+
+    if(responseModal?.success) this.getProducts();
   }
 
 }
