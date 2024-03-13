@@ -1,5 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
+
     <ion-buttons slot="start" *ngIf="backButton">
       <ion-back-button [defaultHref]="backButton"></ion-back-button>
     </ion-buttons>
@@ -8,5 +9,12 @@
       <strong>{{ title }}</strong>
       <div class="admin">{{ subtitle }}</div>
     </ion-title>
+
+    <ion-buttons slot="end" *ngIf="isModal">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
