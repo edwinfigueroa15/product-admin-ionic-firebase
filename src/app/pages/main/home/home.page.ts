@@ -12,6 +12,7 @@ import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-
 })
 export class HomePage implements OnInit {
   products: Product[] = [];
+  isLoading: boolean = false;
 
   private firebaseService = inject(FirebaseService);
   private utilsService = inject(UtilsService);
@@ -48,11 +49,13 @@ export class HomePage implements OnInit {
   }
 
   getProducts() {
+    this.isLoading = true;
     let path = `users/${this.getUser().uid}/products`;
 
     let products$ = this.firebaseService.getCollectionData(path).subscribe({
       next: (response: Product[]) => {
         this.products = response;
+        this.isLoading = false;
         products$.unsubscribe();
       },
       error: (error: any) => {
