@@ -23,12 +23,11 @@ export class HomePage implements OnInit {
   ngOnInit() { }
 
   ionViewWillEnter() {
-    console.log("ionViewWillEnter")
     this.getProducts();
   }
 
-  getUser(): User {
-    return this.utilsService.getLocalStorage('user');
+  getUser() {
+    return this.firebaseService.getAuth().currentUser;
   }
 
   doRefresh(event) {    

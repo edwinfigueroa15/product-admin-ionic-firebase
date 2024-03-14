@@ -1,7 +1,14 @@
 <ion-menu contentId="main-content" menuId="main-content" side="start">
   <app-header title="Menu" subtitle="Paginas"></app-header>
 
-  <ion-content class="ion-padding">
+
+  <ion-content class="ion-padding ion-text-center">
+    <ion-avatar>
+      <img *ngIf="user?.image" [src]="user?.image" />
+      <ion-icon *ngIf="!user?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+    </ion-avatar>
+    <h4>{{ user.name }}</h4>
+
     <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
       <ion-item [routerLink]="page.url" routerDirection="root" detail [ngClass]="{'active': currentPath === page.url}">
         <ion-icon slot="start" [name]="page.icon"></ion-icon>

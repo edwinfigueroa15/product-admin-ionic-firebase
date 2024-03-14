@@ -11,8 +11,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class AuthPage implements OnInit {
   form = new FormGroup({
-    email: new FormControl('edwinfigueroa15.15@gmail.com', [Validators.required, Validators.email]),
-    password: new FormControl('12345678', [Validators.required])
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   })
 
   // ========== INJECTS ==========
@@ -33,11 +33,12 @@ export class AuthPage implements OnInit {
 
     this.firebaseService.getDocument(path).then(response => {
       this.form.reset();
+      this.utilsService.saveLocalStorage('user', response);
       this.utilsService.routerLink('/main/home');
       this.utilsService.toast({ duration: 2000, message: 'Bienvenid@', color: 'success', position: 'bottom' });
 
     }).catch(error => {
-      this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });
+      this.utilsService.toast({ duration: 30000, message: error.message, color: 'danger', position: 'top' });
 
     }).finally(() => {
       isLoading.dismiss();

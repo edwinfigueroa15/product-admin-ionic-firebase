@@ -11,6 +11,7 @@ export class HeaderComponent  implements OnInit {
   @Input() subtitle!: string;
   @Input() backButton!: string;
   @Input() isModal: boolean = false;
+  @Input() showMenu: boolean = false;
 
   private utilsServices = inject(UtilsService)
 

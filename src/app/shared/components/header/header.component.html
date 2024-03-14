@@ -1,5 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
+    
+    <ion-buttons slot="start" *ngIf="showMenu">
+      <ion-menu-button menu="main-content"></ion-menu-button>
+    </ion-buttons>
 
     <ion-buttons slot="start" *ngIf="backButton">
       <ion-back-button [defaultHref]="backButton"></ion-back-button>

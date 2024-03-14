@@ -33,6 +33,7 @@ ion-button {
 .safe-p-bottom{
     padding-bottom: constant(safe-area-inset-bottom); // for ios 13+
     padding-bottom: env(safe-area-inset-bottom); // for previous ios versions
+    cursor: pointer;
 }
 
 .submit {

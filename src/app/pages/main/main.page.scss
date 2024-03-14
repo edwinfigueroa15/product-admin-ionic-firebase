@@ -19,5 +19,33 @@ ion-item {
         ion-icon {
             color: var(--ion-color-warning);
         }
+
+        &:hover {
+            --color: var(--ion-color-warning);
+        }
     }
+
+    &:hover {
+        --color: var(--ion-color-light);
+    }
+}
+
+h4 {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+ion-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.empty-icon {
+    font-size: 150px;
+    opacity: 70%;
+}
+
+ion-footer {
+    background: var(--ion-color-primary);
 }
