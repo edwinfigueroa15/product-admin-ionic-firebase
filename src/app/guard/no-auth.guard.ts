@@ -14,15 +14,13 @@ export class NoAuthGuard implements CanActivate {
   private utilsService = inject(UtilsService);
   
   canActivate(route: ActivatedRouteSnapshot, nstate: RouterStateSnapshot): returnCanActivate {
-    let user = this.utilsService.getLocalStorage('user');
-
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.firebaseService.getAuth().onAuthStateChanged(auth => {
-        if (!auth) {
-          resolve(true);
-        } else {
-          this.utilsService.routerLink('/main/home');
+        if (auth) {
+          this.utilsService.routerLink('/main/home', { replaceUrl: true });
           resolve(false);
+        } else {
+          resolve(true);
         }
       })
     })

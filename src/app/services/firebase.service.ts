@@ -47,7 +47,7 @@ export class FirebaseService {
   signOut() {
     getAuth().signOut();
     localStorage.removeItem('user');
-    this.utilsService.routerLink('/auth');
+    this.utilsService.routerLink('/auth', { replaceUrl: true });
   }
 
   // ===== Base de datos =====

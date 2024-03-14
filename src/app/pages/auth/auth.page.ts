@@ -11,8 +11,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class AuthPage implements OnInit {
   form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required])
+    email: new FormControl('edwinfigueroa15.15@gmail.com', [Validators.required, Validators.email]),
+    password: new FormControl('12345678', [Validators.required])
   })
 
   // ========== INJECTS ==========
@@ -32,27 +32,35 @@ export class AuthPage implements OnInit {
     let path = `users/${uid}`;
 
     this.firebaseService.getDocument(path).then(response => {
-      this.utilsService.saveLocalStorage('user', response);
-      this.utilsService.routerLink('/main/home');
       this.form.reset();
+      this.utilsService.routerLink('/main/home');
       this.utilsService.toast({ duration: 2000, message: 'Bienvenid@', color: 'success', position: 'bottom' });
-      
+
     }).catch(error => {
       this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });
-      
+
     }).finally(() => {
       isLoading.dismiss();
     })
   }
 
   async onSubmit() {
+    
     const { email, password } = this.form.value;
 
     const isLoading = await this.utilsService.loading();
     isLoading.present();
 
-    this.firebaseService.signIn({email, password} as User).then(response => {
+    this.firebaseService.signIn({ email, password } as User).then(response => {
+      const user = {
+        uid: response.user.uid,
+        name: response.user.displayName,
+        email: response.user.email
+      }
+
+      this.utilsService.saveLocalStorage('user', user);
       this.getUserInfo(response.user.uid);
+      isLoading.dismiss();
 
     }).catch(error => {
       this.utilsService.toast({ duration: 3000, message: error.message, color: 'danger', position: 'bottom' });

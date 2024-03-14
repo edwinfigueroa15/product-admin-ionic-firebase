@@ -13,17 +13,17 @@ import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-
 })
 export class HomePage implements OnInit {
   products: Product[] = [];
-  isLoading: boolean = false;
+  isLoading: boolean = true;
 
   private firebaseService = inject(FirebaseService);
   private utilsService = inject(UtilsService);
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ionViewWillEnter() {
+    console.log("ionViewWillEnter")
     this.getProducts();
   }
 

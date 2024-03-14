@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationBehaviorOptions, Router } from '@angular/router';
 import { AlertController, AlertOptions, LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -42,8 +42,8 @@ export class UtilsService {
     await alert.present();
   }
 
-  routerLink(url: string) {
-    return this.router.navigateByUrl(url);
+  routerLink(url: string, extras?: NavigationBehaviorOptions) {
+    return this.router.navigateByUrl(url, extras);
   }
 
   getLocalStorage(key: string) {

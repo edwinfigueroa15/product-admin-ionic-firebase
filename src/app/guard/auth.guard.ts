@@ -14,14 +14,12 @@ export class AuthGuard implements CanActivate {
   private utilsService = inject(UtilsService);
 
   canActivate(route: ActivatedRouteSnapshot, nstate: RouterStateSnapshot): returnCanActivate {
-    let user = this.utilsService.getLocalStorage('user');
-
     return new Promise((resolve, reject) => {
       this.firebaseService.getAuth().onAuthStateChanged(auth => {
-        if (auth && user) {
+        if (auth) {
           resolve(true);
         } else {
-          this.utilsService.routerLink('/auth');
+          this.firebaseService.signOut();
           resolve(false);
         }
       })
