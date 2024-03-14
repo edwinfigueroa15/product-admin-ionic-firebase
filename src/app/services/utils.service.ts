@@ -30,7 +30,7 @@ export class UtilsService {
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
-    if(data) return data;
+    if (data) return data;
   }
 
   dismissModal(data?: any) {
@@ -65,4 +65,17 @@ export class UtilsService {
       promptLabelPicture: "Toma una foto"
     });
   };
+
+  stringToNumber(item: string, type?: 'int' | 'float') {
+    switch (type) {
+      case 'int':
+        return parseInt(item);
+
+      case 'float':
+        return parseFloat(item);
+
+      default:
+        return parseInt(item);
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { orderBy } from 'firebase/firestore';
 import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -30,6 +31,19 @@ export class HomePage implements OnInit {
     return this.utilsService.getLocalStorage('user');
   }
 
+  doRefresh(event) {    
+    setTimeout(() => {
+      this.getProducts();
+      event.target.complete();
+    }, 1000);
+  }
+
+  getProfits() {
+    return this.products.reduce((acc, product) => {
+      return acc + (product.price * product.soldUnits);
+    }, 0)
+  }
+
   async confirmDeleteProduct(product: Product) {
     await this.utilsService.presentAlert({
       header: 'Eliminar',
@@ -51,8 +65,10 @@ export class HomePage implements OnInit {
   getProducts() {
     this.isLoading = true;
     let path = `users/${this.getUser().uid}/products`;
-
-    let products$ = this.firebaseService.getCollectionData(path).subscribe({
+    let collectionQuery = (
+      orderBy('soldUnits', 'desc')
+    )
+    let products$ = this.firebaseService.getCollectionData(path, collectionQuery).subscribe({
       next: (response: Product[]) => {
         this.products = response;
         this.isLoading = false;

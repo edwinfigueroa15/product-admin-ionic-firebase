@@ -44,11 +44,15 @@ export class AddUpdateProductComponent implements OnInit {
     const isLoading = await this.utilsService.loading();
     isLoading.present();
 
-    const { image } = this.form.value;
+    const { image, price, soldUnits } = this.form.value;
+    this.form.controls.price.setValue(this.utilsService.stringToNumber(price, 'float'));
+    this.form.controls.soldUnits.setValue(this.utilsService.stringToNumber(soldUnits));
+
     let path = `users/${this.user.uid}/products`;
     let pathImage = `${this.user.uid}/${Date.now()}`;
     let urlImage = await this.firebaseService.uploadImage(pathImage, image);
     this.form.controls.image.setValue(urlImage);
+
     delete this.form.value.id;
 
     this.firebaseService.addDocument(path, this.form.value).then(async response => {
@@ -69,7 +73,10 @@ export class AddUpdateProductComponent implements OnInit {
 
     let path = `users/${this.user.uid}/products/${this.product.id}`;
 
-    const { image } = this.form.value;
+    const { image, price, soldUnits } = this.form.value;
+    this.form.controls.price.setValue(this.utilsService.stringToNumber(price, 'float'));
+    this.form.controls.soldUnits.setValue(this.utilsService.stringToNumber(soldUnits));
+
     if(image != this.product.image) {
       let pathImage = await this.firebaseService.getFilePath(this.product.image);
       let urlImage = await this.firebaseService.uploadImage(pathImage, image);

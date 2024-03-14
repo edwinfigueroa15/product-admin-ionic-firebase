@@ -1,0 +1,31 @@
+ion-card {
+    gap: 100px;
+    padding: 10px 0;
+    border-radius: 15px;
+}
+
+ion-content {
+    --padding-bottom: 70px;
+}
+
+.grid-product {
+    margin: 0;
+}
+
+@media (min-width: 769px) {
+    .grid-product {
+        margin: 0 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .grid-product {
+        margin: 0 80px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .grid-product {
+        margin: 0 120px;
+    }
+}
